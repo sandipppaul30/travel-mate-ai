@@ -1,0 +1,38 @@
+[project]
+name = "travel-mate-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Sandip Paul", email = "49578367+sandipppaul30@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "airportsdata>=20260905",
+    "certifi>=2026.7.22",
+    "fastapi>=0.141.1",
+    "jinja2>=3.1.6",
+    "langchain>=1.4.2",
+    "langchain-community>=0.4.2",
+    "langchain-groq>=1.1.3",
+    "langchain-mcp-adapters>=0.3.2",
+    "langchain-tavily>=0.2.18",
+    "langgraph>=1.2.12",
+    "langgraph-checkpoint-postgres>=3.1.2",
+    "mcp>=1.30.0",
+    "nest-asyncio>=1.6.0",
+    "psycopg-pool>=3.3.3",
+    "psycopg[binary]>=3.3.6",
+    "pycountry>=26.2.16",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+    "tavily-python>=0.8.4",
+    "uvicorn>=0.53.0",
+]
+
+[project.scripts]
+travel-mate-ai = "travel_mate_ai:main"
+
+[build-system]
+requires = ["uv_build>=0.12.18,<0.13.0"]
+build-backend = "uv_build"
