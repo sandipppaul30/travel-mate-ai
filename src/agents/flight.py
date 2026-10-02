@@ -40,7 +40,7 @@ def flight_agent(state: TravelState):
         prompt_input = flight_agent_prompt.format_messages(
             query=user_query,
             airports=asyncio.run(call_tool("aviationstack", query=user_query)),
-            airlines=asyncio.run(call_tool("tavily", query=user_query))
+            airlines=asyncio.run(call_tool("aviationstack", query=user_query))
         )
 
         result: FlightResponse = flight_llm.invoke(prompt_input)
