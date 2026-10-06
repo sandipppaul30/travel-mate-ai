@@ -2,17 +2,17 @@ from dataclasses import dataclass
 
 from langgraph.graph import StateGraph, END, START
 from .memory import TravelState, memory_load_agent, memory_persist_agent
-from ..agents.guardrail import guardrail_agent, guardrail_blocked_agent
-from ..agents.supervisor import supervisor_agent
-from ..agents.flight import flight_agent
-from ..agents.hotel import hotel_agent
-from ..agents.weather import weather_agent
-from ..agents.budget import budget_agent
-from ..agents.itinerary import itinerary_agent
-from ..agents.human_approval import human_approval_agent
-from ..agents.final import final_agent
+from agents.guardrail import guardrail_agent, guardrail_blocked_agent
+from agents.supervisor import supervisor_agent
+from agents.flight import flight_agent
+from agents.hotel import hotel_agent
+from agents.weather import weather_agent
+from agents.budget import budget_agent
+from agents.itinerary import itinerary_agent
+from agents.human_approval import human_approval_agent
+from agents.final import final_agent
 from .routing import ROUTES, route_after, route_after_guardrail, route_from_supervisor
-from ..shared.database import checkpointer, memory_store
+from shared.database import checkpointer, memory_store
 
 @dataclass()
 class TravelContext:
@@ -44,7 +44,7 @@ def build_graph():
     g.add_conditional_edges("guardrail", route_after_guardrail, ROUTES)
     g.add_conditional_edges("supervisor", route_from_supervisor, ROUTES)
 
-    for agent in ("flight_agent", "hotel_agent", "weather_agent", "budget_agent"):
+    for agent in ("flight", "hotel", "weather", "budget"):
         g.add_conditional_edges(agent, route_after(agent), ROUTES)
 
     g.add_edge("itinerary", "human_approval")

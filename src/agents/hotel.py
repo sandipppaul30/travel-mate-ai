@@ -1,10 +1,10 @@
 import asyncio
 
 from langchain_core.prompts import ChatPromptTemplate
-from ..shared.config import get_env, get_gemini_client
-from ..shared.memory import TravelState
-from ..shared.models import HotelResponse
-from ..mcp_data.client_mcp import call_tool
+from shared.config import get_env, get_gemini_client
+from shared.memory import TravelState
+from shared.models import HotelResponse
+from mcp_data.client_mcp import call_tool
 
 hotel_agent_prompt = ChatPromptTemplate.from_messages([
     ("system", 

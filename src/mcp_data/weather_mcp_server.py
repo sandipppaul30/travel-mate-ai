@@ -1,7 +1,7 @@
 from mcp.server.fastmcp import FastMCP
 from typing import Any
 from shared.config import get_env
-from shared.services import request_json
+from shared.http_client import request_json
 
 mcp = FastMCP("Weather MCP server")
 

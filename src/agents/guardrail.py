@@ -1,7 +1,7 @@
 from langchain_core.messages import AIMessage
 from llm_guard import scan_prompt
 from llm_guard.input_scanners import BanTopics, PromptInjection, Toxicity
-from ..shared.memory import TravelState, empty_constraints
+from shared.memory import TravelState, empty_constraints
 
 DEFAULT_BLOCK_REASON = (
     "TripMate AI can only help with travel-planning requests. "

@@ -1,9 +1,9 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import AIMessage
 
-from ..shared.config import get_env, get_gemini_client
-from ..shared.memory import TravelState, AGENT_ORDER, empty_constraints
-from ..shared.models import SupervisorResponse
+from shared.config import get_env, get_gemini_client
+from shared.memory import TravelState, AGENT_ORDER, empty_constraints
+from shared.models import SupervisorResponse
 
 supervisor_prompt = ChatPromptTemplate.from_messages([
     ("system",

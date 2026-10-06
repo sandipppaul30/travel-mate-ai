@@ -2,10 +2,10 @@ import asyncio
 
 from langchain_core.prompts import ChatPromptTemplate
 
-from ..shared.config import get_env, get_gemini_client
-from ..shared.memory import TravelState
-from ..shared.models import FlightResponse
-from ..mcp_data.client_mcp import call_tool
+from shared.config import get_env, get_gemini_client
+from shared.memory import TravelState
+from shared.models import FlightResponse
+from mcp_data.client_mcp import call_tool
 
 MAX_CONTEXT_CHARS = int(get_env("MAX_CONTEXT_CHARS"))
 

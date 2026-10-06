@@ -1,5 +1,5 @@
 from langgraph.types import interrupt
-from ..shared.memory import TravelState
+from shared.memory import TravelState
 
 def human_approval_agent(state: TravelState):
 
