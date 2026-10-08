@@ -6,7 +6,7 @@ from shared.http_client import request_json
 mcp = FastMCP("Weather MCP server")
 
 OPENWEATHER_API_KEY = get_env("OPENWEATHER_API_KEY")
-REQUEST_TIMEOUT_SECONDS = get_env("REQUEST_TIMEOUT_SECONDS")
+REQUEST_TIMEOUT_SECONDS = int(get_env("REQUEST_TIMEOUT_SECONDS"))
 WEATHER_API = get_env("WEATHER_API")
 FORECAST_API = get_env("FORECAST_API")
 

@@ -39,7 +39,7 @@ def build_graph():
     for name, agent in nodes.items():
         g.add_node(name, agent)
 
-    g.add_node(START, "memory_load")
+    g.add_edge(START, "memory_load")
     g.add_edge("memory_load", "guardrail")
     g.add_conditional_edges("guardrail", route_after_guardrail, ROUTES)
     g.add_conditional_edges("supervisor", route_from_supervisor, ROUTES)

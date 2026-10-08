@@ -31,7 +31,7 @@ def get_gemini_client() -> ChatGoogleGenerativeAI:
     return ChatGoogleGenerativeAI(
         api_key = get_env("GEMINI_API_KEY"),
         model = get_env("GEMINI_DEPLOYED_MODEL"),
-        tempareture = 0.0
+        temperature = 0.0
     )
 
 def get_gemini_embedding_client() -> GoogleGenerativeAIEmbeddings:

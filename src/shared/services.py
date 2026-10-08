@@ -4,8 +4,8 @@ from typing import Any
 
 from langchain_core.messages import HumanMessage
 from langgraph.types import Command
-from shared.memory import initial_state
-from shared.graph import travel_graph, TravelContext
+from .memory import initial_state
+from .graph import travel_graph, TravelContext
 
 def _interrupt(result: dict[str, Any]) -> dict[str, Any] | None:
 
