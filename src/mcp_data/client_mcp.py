@@ -36,7 +36,7 @@ mcp_client = MultiServerMCPClient(
         "weather": {
             "transport": "stdio",
             "command": sys.executable,
-            "args": ["weather_mcp_server.py"],
+            "args": ["mcp_data/weather_mcp_server.py"],
             "env": {
                 "OPENWEATHER_API_KEY": OPENWEATHER_API_KEY
             }

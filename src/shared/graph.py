@@ -23,35 +23,35 @@ def build_graph():
     g = StateGraph(state_schema=TravelState, context_schema=TravelContext)
 
     nodes = {
-        "memory_load": memory_load_agent,
-        "memory_persist": memory_persist_agent,
-        "guardrail": guardrail_agent,
-        "guardrail_blocked": guardrail_blocked_agent,
-        "supervisor": supervisor_agent,
-        "flight": flight_agent,
-        "hotel": hotel_agent,
-        "weather": weather_agent,
-        "budget": budget_agent,
-        "itinerary": itinerary_agent,
-        "human_approval": human_approval_agent,
-        "final": final_agent
+        "memory_load_agent": memory_load_agent,
+        "memory_persist_agent": memory_persist_agent,
+        "guardrail_agent": guardrail_agent,
+        "guardrail_blocked_agent": guardrail_blocked_agent,
+        "supervisor_agent": supervisor_agent,
+        "flight_agent": flight_agent,
+        "hotel_agent": hotel_agent,
+        "weather_agent": weather_agent,
+        "budget_agent": budget_agent,
+        "itinerary_agent": itinerary_agent,
+        "human_approval_agent": human_approval_agent,
+        "final_agent": final_agent
     }
     for name, agent in nodes.items():
         g.add_node(name, agent)
 
-    g.add_edge(START, "memory_load")
-    g.add_edge("memory_load", "guardrail")
-    g.add_conditional_edges("guardrail", route_after_guardrail, ROUTES)
-    g.add_conditional_edges("supervisor", route_from_supervisor, ROUTES)
+    g.add_edge(START, "memory_load_agent")
+    g.add_edge("memory_load_agent", "guardrail_agent")
+    g.add_conditional_edges("guardrail_agent", route_after_guardrail, ROUTES)
+    g.add_conditional_edges("supervisor_agent", route_from_supervisor, ROUTES)
 
-    for agent in ("flight", "hotel", "weather", "budget"):
+    for agent in ("flight_agent", "hotel_agent", "weather_agent", "budget_agent"):
         g.add_conditional_edges(agent, route_after(agent), ROUTES)
 
-    g.add_edge("itinerary", "human_approval")
-    g.add_edge("human_approval", "final_agent")
-    g.add_edge("final_agent", "memory_persist")
-    g.add_edge("memory_persist", END)
-    g.add_edge("guardrail_blocked", END)
+    g.add_edge("itinerary_agent", "human_approval_agent")
+    g.add_edge("human_approval_agent", "final_agent")
+    g.add_edge("final_agent", "memory_persist_agent")
+    g.add_edge("memory_persist_agent", END)
+    g.add_edge("guardrail_blocked_agent", END)
 
     return g.compile(checkpointer=checkpointer, store=memory_store)
 

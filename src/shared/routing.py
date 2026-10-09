@@ -2,8 +2,8 @@ from .memory import AGENT_ORDER, TravelState
 
 ROUTES = {name: name for name in AGENT_ORDER}
 ROUTES |= {
-    "guardrail_blocked": "guardrail_blocked",
-    "supervisor": "supervisor",
+    "guardrail_blocked_agent": "guardrail_blocked_agent",
+    "supervisor_agent": "supervisor_agent",
 }
 
 def selected_agents(state: TravelState) -> list[str]:
@@ -13,7 +13,7 @@ def selected_agents(state: TravelState) -> list[str]:
 
 def route_after_guardrail(state: TravelState) -> str:
 
-    return "supervisor" if state.get("guardrail_allowed", True) else "guardrail_blocked"
+    return "supervisor_agent" if state.get("guardrail_allowed", True) else "guardrail_blocked_agent"
 
 def route_from_supervisor(state: TravelState) -> str:
 
