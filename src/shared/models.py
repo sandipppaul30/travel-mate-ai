@@ -31,3 +31,6 @@ class SupervisorResponse(BaseModel):
     selected_agents: list[str] = Field(..., description="List of selected agents for the task.")
     trip_constraints: TripConstraints = Field(..., description="Constraints for the trip, including destination, origin, duration, budget, travel style, and special preferences.")
     reasoning: str = Field(..., description="Reasoning behind the selection of agents and trip constraints.")
+
+class TravelplanRequest(BaseModel):
+    user_input: str = Field(..., description="User input for the travel plan request.")

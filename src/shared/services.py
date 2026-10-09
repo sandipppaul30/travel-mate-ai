@@ -43,8 +43,8 @@ def _serialize(result: dict[str, Any], thread_id: str) -> dict[str, Any]:
     }
 
 def run_travel_agent(user_input: str, thread_id: str | None = None, user_id: str | None = None):
-    thread_id = thread_id or f"user_{uuid.uuid4().hex}"
-    user_id = user_id or thread_id
+    thread_id = thread_id or f"t_{uuid.uuid4().hex}"
+    user_id = user_id or f"u_{uuid.uuid4().hex}"
     state = initial_state(user_input)
     state["messages"] = [HumanMessage(content=user_input)]
 
@@ -60,7 +60,9 @@ def resume_travel_agent(thread_id: str, approved: bool, feedback: str = "", user
     if not thread_id:
         raise ValueError("thread_id is required to resume a travel plan.")
 
-    user_id = user_id or thread_id
+    if not user_id:
+        raise ValueError("user_id is required to resume a travel plan.")
+
     result = travel_graph.invoke(
         Command(resume={"approved": approved, "feedback": feedback.strip()}),
         config={"configurable": {"thread_id": thread_id}},
