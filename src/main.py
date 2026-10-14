@@ -21,7 +21,7 @@ async def get_mcp_tools():
 async def travel_plan(request: TravelplanRequest):
     thread_id = f"t_{uuid.uuid4().hex}"
     user_id = f"u_{uuid.uuid4().hex}"
-    result = run_travel_agent(
+    result = await run_travel_agent(
         request.user_input,
         thread_id,
         user_id

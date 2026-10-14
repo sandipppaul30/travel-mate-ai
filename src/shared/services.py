@@ -5,7 +5,8 @@ from typing import Any
 from langchain_core.messages import HumanMessage
 from langgraph.types import Command
 from .memory import initial_state
-from .graph import travel_graph, TravelContext
+from .graph import build_graph, TravelContext
+
 
 def _interrupt(result: dict[str, Any]) -> dict[str, Any] | None:
 
@@ -42,13 +43,13 @@ def _serialize(result: dict[str, Any], thread_id: str) -> dict[str, Any]:
         "memory_context": result.get("memory_context", {}),
     }
 
-def run_travel_agent(user_input: str, thread_id: str | None = None, user_id: str | None = None):
+async def run_travel_agent(user_input: str, thread_id: str | None = None, user_id: str | None = None):
     thread_id = thread_id or f"t_{uuid.uuid4().hex}"
     user_id = user_id or f"u_{uuid.uuid4().hex}"
     state = initial_state(user_input)
     state["messages"] = [HumanMessage(content=user_input)]
-
-    result = travel_graph.invoke(
+    graph = await build_graph()
+    result = await graph.ainvoke(
         state,
         config={"configurable": {"thread_id": thread_id}},
         context=TravelContext(user_id=user_id, thread_id=thread_id),
@@ -56,14 +57,14 @@ def run_travel_agent(user_input: str, thread_id: str | None = None, user_id: str
     return _serialize(result, thread_id)
 
 
-def resume_travel_agent(thread_id: str, approved: bool, feedback: str = "", user_id: str | None = None):
+async def resume_travel_agent(thread_id: str, approved: bool, feedback: str = "", user_id: str | None = None):
     if not thread_id:
         raise ValueError("thread_id is required to resume a travel plan.")
 
     if not user_id:
         raise ValueError("user_id is required to resume a travel plan.")
-
-    result = travel_graph.invoke(
+    graph = await build_graph()
+    result = await graph.ainvoke(
         Command(resume={"approved": approved, "feedback": feedback.strip()}),
         config={"configurable": {"thread_id": thread_id}},
         context=TravelContext(user_id=user_id, thread_id=thread_id),

@@ -42,10 +42,10 @@ def supervisor_agent(state: TravelState):
             selected.append("itinerary_agent")
 
         constraints = empty_constraints()
-        if isinstance(result["trip_constraints"], dict):
-            constraints.update(result["trip_constraints"])
+        if isinstance(result.trip_constraints, dict):
+            constraints.update(result.trip_constraints.model_dump(exclude_none=True))
 
-        reasoning = str(result.get("reasoning", "")).strip()
+        reasoning = str(result.reasoning).strip()
 
     except Exception as exc:
         selected = AGENT_ORDER.copy()
@@ -54,7 +54,10 @@ def supervisor_agent(state: TravelState):
         raise RuntimeError(f"Supervisor agent failed: {exc}") from exc  
 
     return {
-        "supervisor_agent": result
+        "supervisor_agent": result,
+        "selected_agents": selected,
+        "trip_constraints": constraints,
+        "supervisor_reasoning": reasoning
     }
 
 

@@ -50,6 +50,7 @@ async def mcp_tools():
     return tool_map
 
 async def call_tool(tool_name: str, **kwargs):
+    tool_map = await mcp_tools()
     if tool_name not in tool_map:
         raise ValueError(f"{tool_name} not found")
 

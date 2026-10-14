@@ -31,19 +31,24 @@ flight_agent_prompt = ChatPromptTemplate.from_messages([
 
 flight_llm = get_gemini_client().with_structured_output(FlightResponse)
 
-def flight_agent(state: TravelState):
+async def flight_agent(state: TravelState):
     user_query = state.get("user_query")
     if not user_query:
         raise ValueError("user query is required")
     
     try:
-        prompt_input = flight_agent_prompt.format_messages(
-            query=user_query,
-            airports=asyncio.run(call_tool("aviationstack", query=user_query)),
-            airlines=asyncio.run(call_tool("aviationstack", query=user_query))
+        airports, airlines = await asyncio.gather(
+            call_tool("list_airports", query=user_query),
+            call_tool("list_airlines", query=user_query)
         )
 
-        result: FlightResponse = flight_llm.invoke(prompt_input)
+        prompt_input = flight_agent_prompt.format_messages(
+            query=user_query,
+            airports=airports,
+            airlines=airlines
+        )
+
+        result: FlightResponse = await flight_llm.ainvoke(prompt_input)
         
     except Exception as exc:
         raise RuntimeError(f"Flight agent failed: {exc}") from exc

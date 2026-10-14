@@ -12,14 +12,14 @@ from agents.itinerary import itinerary_agent
 from agents.human_approval import human_approval_agent
 from agents.final import final_agent
 from .routing import ROUTES, route_after, route_after_guardrail, route_from_supervisor
-from shared.database import checkpointer, memory_store
+from shared.database import init_database
 
 @dataclass()
 class TravelContext:
     user_id: str
     thread_id: str
 
-def build_graph():
+async def build_graph():
     g = StateGraph(state_schema=TravelState, context_schema=TravelContext)
 
     nodes = {
@@ -53,8 +53,9 @@ def build_graph():
     g.add_edge("memory_persist_agent", END)
     g.add_edge("guardrail_blocked_agent", END)
 
+    checkpointer, memory_store, checkpoint_conn, memory_conn =  await init_database()
+
     return g.compile(checkpointer=checkpointer, store=memory_store)
 
-travel_graph = build_graph()
 
     

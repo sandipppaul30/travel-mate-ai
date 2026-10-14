@@ -24,18 +24,19 @@ hotel_agent_prompt = ChatPromptTemplate.from_messages([
 
 hotel_llm = get_gemini_client().with_structured_output(HotelResponse)
 
-def hotel_agent(state: TravelState):
+async def hotel_agent(state: TravelState):
     user_query = state.get("user_query")
     if not user_query:
         raise ValueError("user query is required")
 
-    try:
+    try:    
+        hotels = await asyncio.gather(call_tool("tavily_search", query=user_query))
         prompt_input = hotel_agent_prompt.format_messages(
             query = user_query,
-            hotels = asyncio.run(call_tool("tavily", query=user_query))
+            hotels = hotels
         )
 
-        result: HotelResponse = hotel_llm.invoke(prompt_input)
+        result: HotelResponse = await hotel_llm.ainvoke(prompt_input)
 
     except Exception as exc:
         raise RuntimeError(f"Hotel agent failed: {exc}") from exc
