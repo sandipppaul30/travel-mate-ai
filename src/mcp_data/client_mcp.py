@@ -16,6 +16,7 @@ AVIATION_STACK_API_KEY = get_env("AVIATION_STACK_API_KEY")
 OPENWEATHER_API_KEY = get_env("OPENWEATHER_API_KEY")
 GEMINI_API_KEY = get_env("GEMINI_API_KEY")
 GEMINI_DEPLOYED_MODEL = get_env("GEMINI_DEPLOYED_MODEL")
+SERPAPI_API_KEY = get_env("SERPAPI_API_KEY")
 tool_map = {}
 mcp_client = MultiServerMCPClient(
     {
@@ -23,14 +24,21 @@ mcp_client = MultiServerMCPClient(
             "transport": "streamable_http",
             "url": f"https://mcp.tavily.com/mcp/?tavilyApiKey={TAVILY_API_KEY}"
         },
-        "aviationstack": {
+        "ourairports": {
             "transport": "stdio",
-            "command": "uvx",
+            "command": "npx",
             "args": [
-                "aviationstack-mcp"
+                "-y", "@cyanheads/ourairports-mcp-server"
+            ]
+        },
+        "flight": {
+            "transport": "stdio",
+            "command": sys.executable,
+            "args": [
+                "mcp_data/flight_mcp_server.py"
             ],
             "env": {
-                "AVIATION_STACK_API_KEY": AVIATION_STACK_API_KEY
+                "SERPAPI_API_KEY": SERPAPI_API_KEY
             }
         },
         "weather": {

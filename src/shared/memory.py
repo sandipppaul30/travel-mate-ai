@@ -62,6 +62,10 @@ def empty_constraints() -> dict[str, Any]:
         "budget": "",
         "travel_style": "",
         "special_preferences": [],
+        "start_date": "",
+        "end_date": "",
+        "adult_count": 0,
+        "child_count": 0,
     }
 
 

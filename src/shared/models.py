@@ -26,6 +26,10 @@ class TripConstraints(BaseModel):
     budget: str = Field(..., description="The budget for the trip.")
     travel_style: str = Field(..., description="The travel style for the trip (e.g., luxury, budget, adventure).")
     special_preferences: list[str] = Field(..., description="Any special preferences for the trip (e.g., dietary restrictions, accessibility needs).")
+    start_date: str = Field(..., description="The start date of the trip.")
+    end_date: str = Field(..., description="The end date of the trip.")
+    adult_count: int = Field(..., description="The number of adults traveling.")
+    child_count: int = Field(..., description="The number of children traveling.")
 
 class SupervisorResponse(BaseModel):
     selected_agents: list[str] = Field(..., description="List of selected agents for the task.")

@@ -21,7 +21,7 @@ def get_env(env: str) -> Any:
 
 def get_database_url() -> str:
 
-    db_url = get_env("DATABSE_URL")
+    db_url = get_env("DATABASE_URL")
     if "sslmode=" not in db_url:
         db_url += ("&" if "?" in db_url else "?") + "sslmode=require" 
     return db_url
