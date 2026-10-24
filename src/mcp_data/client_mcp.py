@@ -2,6 +2,7 @@ import os
 import sys
 import certifi
 from typing import Any
+from pathlib import Path
 from dotenv import load_dotenv
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from shared.config import get_env
@@ -10,6 +11,8 @@ load_dotenv()
 
 os.environ["SSL_CERT_FILE"] = certifi.where()
 os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
+
+BASE_DIR = Path(__file__).resolve().parent
 
 TAVILY_API_KEY = get_env("TAVILY_API_KEY")
 AVIATION_STACK_API_KEY = get_env("AVIATION_STACK_API_KEY")
@@ -35,7 +38,7 @@ mcp_client = MultiServerMCPClient(
             "transport": "stdio",
             "command": sys.executable,
             "args": [
-                "mcp_data/flight_mcp_server.py"
+                str(BASE_DIR / "flight_mcp_server.py")
             ],
             "env": {
                 "SERPAPI_API_KEY": SERPAPI_API_KEY
@@ -44,7 +47,7 @@ mcp_client = MultiServerMCPClient(
         "weather": {
             "transport": "stdio",
             "command": sys.executable,
-            "args": ["mcp_data/weather_mcp_server.py"],
+            "args": [str(BASE_DIR / "weather_mcp_server.py")],
             "env": {
                 "OPENWEATHER_API_KEY": OPENWEATHER_API_KEY
             }

@@ -57,8 +57,8 @@ def weather_agent(state:TravelState):
     destination = extract_destination(state).get("destination")
     try:
         prompt_input = weather_agent_prompt.format_messages(
-            weather = asyncio.run(call_tool("weather", query=destination)),
-            forecast = asyncio.run(call_tool("weather", query=destination, forecast=True))
+            weather = asyncio.run(call_tool("get_current_weather", query=destination)),
+            forecast = asyncio.run(call_tool("get_forecast", query=destination, forecast=True))
         )
 
         result: WeatherResponse = weather_llm.invoke(prompt_input)

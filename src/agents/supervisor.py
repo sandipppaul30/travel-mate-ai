@@ -41,9 +41,12 @@ def supervisor_agent(state: TravelState):
         if "itinerary_agent" not in selected:
             selected.append("itinerary_agent")
 
+        trip_constraints = result.trip_constraints
         constraints = empty_constraints()
-        if isinstance(result.trip_constraints, dict):
-            constraints.update(result.trip_constraints.model_dump(exclude_none=True))
+        if trip_constraints is not None:
+            data = trip_constraints.model_dump(exclude_none=True) if hasattr(trip_constraints, "model_dump") else dict(trip_constraints)
+            # don't let empty values overwrite defaults
+            constraints.update({k: v for k, v in data.items() if v not in ("", None, [])})
 
         reasoning = str(result.reasoning).strip()
 
