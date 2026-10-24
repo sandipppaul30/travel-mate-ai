@@ -38,3 +38,9 @@ class SupervisorResponse(BaseModel):
 
 class TravelplanRequest(BaseModel):
     user_input: str = Field(..., description="User input for the travel plan request.")
+
+class ApprovalRequest(BaseModel):
+    thread_id: str
+    user_id: str
+    approved: bool
+    feedback: str = ""

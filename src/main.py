@@ -1,8 +1,8 @@
 import uuid
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from mcp_data.client_mcp import mcp_tools
 from shared.services import run_travel_agent, resume_travel_agent
-from shared.models import TravelplanRequest
+from shared.models import TravelplanRequest, ApprovalRequest
 
 app = FastAPI(
     title = "TravelMateAI"
@@ -27,3 +27,12 @@ async def travel_plan(request: TravelplanRequest):
         user_id
     )
     return result
+
+@app.post("/travel_plan/approve")
+async def approve_plan(req: ApprovalRequest):
+    try:
+        return await resume_travel_agent(
+            req.thread_id, req.approved, req.feedback, req.user_id
+        )
+    except ValueError as e:
+        raise HTTPException(400, str(e))
